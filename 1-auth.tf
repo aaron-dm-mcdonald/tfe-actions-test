@@ -1,13 +1,13 @@
 terraform {
 
-  cloud { 
-    
-    organization = "test-gh-actions" 
+  cloud {
 
-    workspaces { 
-      name = "learn-terraform-github-actions" 
-    } 
-  } 
+    organization = "test-gh-actions"
+
+    workspaces {
+      name = "learn-terraform-github-actions"
+    }
+  }
 
 
   required_providers {
@@ -17,12 +17,11 @@ terraform {
     }
   }
 
- 
+
 }
 
 provider "aws" {
-  region  = "us-east-1"
-  
+  region = "us-east-1"
 
 }
 

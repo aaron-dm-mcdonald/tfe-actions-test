@@ -1,7 +1,7 @@
 resource "aws_s3_bucket" "frontend" {
   bucket_prefix = "static-site-frontend-"
   force_destroy = true
- 
+
 
   tags = {
     Name = "Frontend Bucket"
@@ -28,14 +28,14 @@ resource "aws_s3_bucket_website_configuration" "frontend" {
 resource "aws_s3_object" "frontend" {
   for_each = tomap({
     #"index.html"          = "text/html"
-    "styles.css"          = "text/css"
-    "error.html"          = "text/html"
+    "styles.css" = "text/css"
+    "error.html" = "text/html"
   })
 
   bucket       = aws_s3_bucket.frontend.bucket
-  key          = each.key                               # S3 key matches the file path
+  key          = each.key                                      # S3 key matches the file path
   source       = "${path.module}/website/frontend/${each.key}" # Local path to the file
-  content_type = each.value                             # Content type from the map
+  content_type = each.value                                    # Content type from the map
   depends_on   = [aws_s3_bucket_public_access_block.frontend, aws_s3_bucket_policy.frontend]
 
 }
@@ -52,9 +52,9 @@ locals {
 data "template_file" "frontend_index" {
   template = file("${path.module}/website/frontend/index.html.tmpl")
   vars = {
-    image_url_1 = local.image_urls[0]  # First image URL
-    image_url_2 = local.image_urls[1]  # Second image URL
-    image_url_3 = local.image_urls[2]  # Third image URL
+    image_url_1 = local.image_urls[0] # First image URL
+    image_url_2 = local.image_urls[1] # Second image URL
+    image_url_3 = local.image_urls[2] # Third image URL
   }
 }
 

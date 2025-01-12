@@ -1,7 +1,7 @@
 resource "aws_s3_bucket" "host" {
   bucket_prefix = "static-site-cors-host-"
   force_destroy = true
-  
+
 
   tags = {
     Name = "Images Host"
@@ -40,9 +40,9 @@ resource "aws_s3_object" "host" {
   })
 
   bucket       = aws_s3_bucket.host.bucket
-  key          = each.key                               # S3 key matches the file path
+  key          = each.key                                  # S3 key matches the file path
   source       = "${path.module}/website/host/${each.key}" # Local path to the file
-  content_type = each.value                             # Content type from the map
+  content_type = each.value                                # Content type from the map
   depends_on   = [aws_s3_bucket_public_access_block.host, aws_s3_bucket_policy.host]
 
 }

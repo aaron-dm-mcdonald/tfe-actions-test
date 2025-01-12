@@ -1,11 +1,14 @@
 terraform {
-  cloud {
-    organization = "FlemingFriday"
 
-    workspaces {
-      name = "learn-terraform-github-actions"
-    }
-  }
+  cloud { 
+    
+    organization = "test-gh-actions" 
+
+    workspaces { 
+      name = "learn-terraform-github-actions" 
+    } 
+  } 
+
 
   required_providers {
     aws = {

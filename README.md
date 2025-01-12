@@ -1,4 +1,4 @@
-# **S3 Static Site with CORS**
+# **S3 Static Site with CORS** 
 
 _Terraform and AWS project used to provision two buckets that support each other with CORS._
 

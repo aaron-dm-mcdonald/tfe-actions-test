@@ -17,12 +17,7 @@ terraform {
     }
   }
 
-  backend "s3" {
-    bucket  = "tf-backend-4357232"                 # Name of the S3 bucket
-    key     = "static-website-cors-011225.tfstate" # The name of the state file in the bucket
-    region  = "us-east-1"                          # Use a variable for the region
-    encrypt = true                                 # Enable server-side encryption (optional but recommended)
-  }
+ 
 }
 
 provider "aws" {

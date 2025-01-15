@@ -19,7 +19,6 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
-          # terraform_version: 0.13.0:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
       - name: Terraform Format
@@ -48,17 +47,24 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            
-            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-            
-            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            const MAX_LENGTH = 65000;
+            let planOutput = process.env.PLAN;
+
+            // Truncate the PLAN if it's too long
+            if (planOutput.length > MAX_LENGTH) {
+              planOutput = `${planOutput.substring(0, MAX_LENGTH)}\n\n[Truncated: Plan exceeded 65,000 characters]`;
+            }
+
+            const output = `#### Terraform Format and Style 🖌 \`${{ steps.fmt.outcome }}\`
+
+            #### Terraform Initialization ⚙️ \`${{ steps.init.outcome }}\`
+            #### Terraform Validation 🤖 \`${{ steps.validate.outcome }}\`
+            #### Terraform Plan 📖 \`${{ steps.plan.outcome }}\`
 
             <details><summary>Show Plan</summary>
 
-            \`\`\`terraform\n
-            ${process.env.PLAN}
+            \`\`\`terraform
+            ${planOutput}
             \`\`\`
 
             </details>
@@ -70,7 +76,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: output
-            })
+            });
 
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
